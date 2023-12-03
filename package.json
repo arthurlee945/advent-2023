@@ -1,0 +1,21 @@
+{
+    "name": "advent-2023",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "1": "ts-node ./1",
+        "2": "ts-node ./2",
+        "3": "ts-node ./3",
+        "4": "ts-node ./4",
+        "5": "ts-node ./5",
+        "6": "ts-node ./6"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^20.10.1",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.3.2"
+    }
+}
