@@ -1,10 +1,16 @@
 function D5(inputs: string[]) {
+  //ANSER IS 23738616
   const sources = Array.from(
     inputs[0]
       .split(":")[1]
       .trim()
       .split(/\s+/)
       .map((c) => +c.trim())
+      .reduce((sSet, currNum, i, entire) => {
+        if (i % 2 === 0) return sSet;
+        sSet.push([entire[i - 1], currNum]);
+        return sSet;
+      }, [] as [number, number][])
   );
   const steps = inputs.slice(1).map((s) =>
     s
@@ -16,34 +22,15 @@ function D5(inputs: string[]) {
         return step;
       }, [] as number[][])
   );
-  let lowestDest: number | null = null;
-  for (let i = 0; i < sources.length; i++) {
-    if (i % 2 === 0) continue;
-    for (let j = 0; j < sources[i]; j++) {
-      const src = sources[i - 1] + j;
-      if (src === undefined) continue;
 
-      //   const destLoc = steps.reduce((currSrc, steps) => {
-      //     const srcToUse = currSrc ?? src;
-      //     for (const step of steps) {
-      //       //   if (step[1] > srcToUse || step[1] + step[2] <= srcToUse) continue;
-      //       //   return step[0] + Math.abs(srcToUse - step[1]);
-      //     }
-      //     return srcToUse;
-      //   }, null as null | number);
-      let ph: number | null = null;
-      for (const stepA of steps) {
-        const srcToUse: number = ph ?? src;
-        for (const step of stepA) {
-          if (step[1] > srcToUse || step[1] + step[2] <= srcToUse) continue;
-          ph = step[0] + Math.abs(srcToUse - step[1]);
-          break;
-        }
-      }
-      if (ph === null) continue;
-      if (lowestDest === null) lowestDest = ph;
-      else if (ph < lowestDest) lowestDest = ph;
-    }
+  let lowestDest: number | null = null;
+  for (const src of sources) {
+    const destLoc = steps.reduce((currSrc, steps) => {
+      return currSrc;
+    }, null as null | number);
+    if (destLoc === null) continue;
+    if (lowestDest === null) lowestDest = destLoc;
+    else if (destLoc < lowestDest) lowestDest = destLoc;
   }
   return lowestDest;
 }
