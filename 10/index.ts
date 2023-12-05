@@ -39,7 +39,6 @@ function D5(inputs: string[]) {
           ph = step[0] + Math.abs(srcToUse - step[1]);
           break;
         }
-        console.log(ph);
       }
       if (ph === null) continue;
       if (lowestDest === null) lowestDest = ph;
