@@ -22,17 +22,28 @@ function D5(inputs: string[]) {
     for (let j = 0; j < sources[i]; j++) {
       const src = sources[i - 1] + j;
       if (src === undefined) continue;
-      const destLoc = steps.reduce((currSrc, steps) => {
-        const srcToUse = currSrc ?? src;
-        for (const step of steps) {
+
+      //   const destLoc = steps.reduce((currSrc, steps) => {
+      //     const srcToUse = currSrc ?? src;
+      //     for (const step of steps) {
+      //       //   if (step[1] > srcToUse || step[1] + step[2] <= srcToUse) continue;
+      //       //   return step[0] + Math.abs(srcToUse - step[1]);
+      //     }
+      //     return srcToUse;
+      //   }, null as null | number);
+      let ph: number | null = null;
+      for (const stepA of steps) {
+        const srcToUse: number = ph ?? src;
+        for (const step of stepA) {
           if (step[1] > srcToUse || step[1] + step[2] <= srcToUse) continue;
-          return step[0] + Math.abs(srcToUse - step[1]);
+          ph = step[0] + Math.abs(srcToUse - step[1]);
+          break;
         }
-        return srcToUse;
-      }, null as null | number);
-      if (destLoc === null) continue;
-      if (lowestDest === null) lowestDest = destLoc;
-      else if (destLoc < lowestDest) lowestDest = destLoc;
+        console.log(ph);
+      }
+      if (ph === null) continue;
+      if (lowestDest === null) lowestDest = ph;
+      else if (ph < lowestDest) lowestDest = ph;
     }
   }
   return lowestDest;
