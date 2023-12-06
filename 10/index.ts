@@ -1,38 +1,52 @@
 function D5(inputs: string[]) {
-  //ANSER IS 23738616
-  const sources = Array.from(
-    inputs[0]
-      .split(":")[1]
-      .trim()
-      .split(/\s+/)
-      .map((c) => +c.trim())
-      .reduce((sSet, currNum, i, entire) => {
-        if (i % 2 === 0) return sSet;
-        sSet.push([entire[i - 1], currNum]);
-        return sSet;
-      }, [] as [number, number][])
-  );
-  const steps = inputs.slice(1).map((s) =>
-    s
-      .split("\n")
-      .slice(1)
-      .reduce((step, cStep) => {
-        const ruleSet = cStep.split(/\s+/).map((c) => +c.trim());
-        step.unshift(ruleSet);
-        return step;
-      }, [] as number[][])
-  );
+    //ANSER IS 23738616
+    const sources = Array.from(
+        inputs[0]
+            .split(":")[1]
+            .trim()
+            .split(/\s+/)
+            .map((c) => +c.trim())
+            .reduce((sSet, currNum, i, entire) => {
+                if (i % 2 === 0) return sSet;
+                sSet.push([entire[i - 1], currNum]);
+                return sSet;
+            }, [] as [number, number][])
+    );
+    const steps = inputs.slice(1).map((s) =>
+        s
+            .split("\n")
+            .slice(1)
+            .reduce((step, cStep) => {
+                const ruleSet = cStep.split(/\s+/).map((c) => +c.trim());
+                step.unshift(ruleSet);
+                return step;
+            }, [] as number[][])
+    );
 
-  let lowestDest: number | null = null;
-  for (const src of sources) {
-    const destLoc = steps.reduce((currSrc, steps) => {
-      return currSrc;
-    }, null as null | number);
-    if (destLoc === null) continue;
-    if (lowestDest === null) lowestDest = destLoc;
-    else if (destLoc < lowestDest) lowestDest = destLoc;
-  }
-  return lowestDest;
+    let lowestDest: number | null = null;
+    for (const src of sources) {
+        const [startSrc, srcCount] = src;
+        const [srcMin, srcMax] = [startSrc, startSrc + srcCount];
+        const destLoc = steps.reduce((currSrc, step) => {
+            // for (const opt of step) {
+            //     if (opt[1] > srcMax || opt[1] + opt[2] <= srcMin) continue;
+            //     if (srcMin >= opt[1]) {
+            //         for (let i = srcMin; i < opt[1] + opt[2]; i++) {
+
+            //         }
+            //     } else if (srcMin < opt[1] && srcMax <= opt[1] + opt[2]) {
+            //         for (let i = opt[1]; i < srcMax; i++) {}
+            //     } else if (srcMin < opt[1] && srcMax > opt[1] + opt[2]) {
+            //         for (let i = opt[1]; i < opt[1] + opt[2]; i++) {}
+            //     }
+            // }
+            return currSrc;
+        }, null as null | number);
+        if (destLoc === null) continue;
+        if (lowestDest === null) lowestDest = destLoc;
+        else if (destLoc < lowestDest) lowestDest = destLoc;
+    }
+    return lowestDest;
 }
 
 const input = `seeds: 1778931867 1436999653 3684516104 2759374 1192793053 358764985 1698790056 76369598 3733854793 214008036 4054174000 171202266 3630057255 25954395 798587440 316327323 290129780 7039123 3334326492 246125391
